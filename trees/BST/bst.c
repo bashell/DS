@@ -4,10 +4,11 @@
 
 int main(int argc, char *argv[])
 {
-    searchTree T;
-    position tempNode;
+    static searchTree T;
+    static position tempNode;
     int num;
-
+    
+    /********** Insertion **********/
     T = insertNode(20, T);
     T = insertNode(10, T);
     T = insertNode(3, T);
@@ -20,16 +21,30 @@ int main(int argc, char *argv[])
     printf("Original:\n");
     printTree(T);
     
-    printf("The min value in this tree: %d\n", retrieve(findMin(T)));
-    printf("The max value in this tree: %d\n", retrieve(findMax(T)));
+    /********** Find min and max **********/
+    printf("\n");
+    printf("The min value in this tree: %d\n", findMin(T) -> val);
+    printf("The max value in this tree: %d\n", findMax(T) -> val);
     
+    /********** Deletion **********/
     T = deleteNode(10, T);
     T = deleteNode(13, T);
-    printf("After deletion:\n");
+    printf("\nAfter deletion:\n");
     printTree(T);
-
-    tempNode = find(3, T);
-    printf("%d\n", tempNode -> val);
+    
+    /********** Find operation **********/
+    printf("\nInput a number you want to find: ");
+    scanf("%d", &num);
+    tempNode = find(num, T);
+    if(tempNode != NULL)
+        printf("%d is in this tree.\n\n", num);
+    else
+        printf("%d is not in this tree.\n\n", num);
+    
+    /********** MakeEmpty **********/
+    T = makeEmpty(T);
+    if(T == NULL)
+        printf("The tree has no nodes now.\n");
 
     exit(EXIT_SUCCESS);
 }
