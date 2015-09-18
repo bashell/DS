@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// 左孩子
+// 左孩子(由于数组下标从0开始)
 #define LeftChild(i) (2 * (i) + 1)
 
 
