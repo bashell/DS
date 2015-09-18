@@ -14,9 +14,9 @@ void heapAdjust(int arr[], int i, int len)
     for( ; LeftChild(i) < len; i = child)
     {
         child = LeftChild(i);
-        if(child < len - 1 && arr[child + 1] > arr[child])    // 得到两个子节点中值较大的那个
+        if(child < len - 1 && arr[child + 1] > arr[child])    // 得到两个子结点中值较大的那个
             child++;
-        if(arr[i] < arr[child])    // 判断是否大于父节点的值
+        if(arr[i] < arr[child])    // 判断是否大于父结点的值
         {
             temp = arr[i];
             arr[i] = arr[child];
@@ -37,7 +37,7 @@ void heapSort(int arr[], int len)
 
     for(i = len - 1; i > 0; i--)
     {
-        // 将最大元素换至本轮的最后位置.
+        // 将最大元素换至本轮循环的最后位置.
         temp = arr[0];
         arr[0] = arr[i];
         arr[i] = temp;
