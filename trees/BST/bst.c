@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "bst.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     static searchTree T;
     static position tempNode;
     int num;
@@ -46,5 +45,5 @@ int main(int argc, char *argv[])
     if(T == NULL)
         printf("The tree has no nodes now.\n");
 
-    exit(EXIT_SUCCESS);
+    return 0;
 }
