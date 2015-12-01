@@ -1,29 +1,72 @@
 #include <stdio.h>
 
-void quickSort(int *arr, int left, int right) {
-    if(left < right) {
-        int i = left, j = right, target = arr[left];
-        while(i < j) {
-            while(i < j && arr[j] > target)
-                j--;
-            if(i < j)
-                arr[i++] = arr[j];
-            while(i < j && arr[i] < target)
-                i++;
-            if(i < j)
-                arr[j] = arr[i];
-        }
-        arr[i] = target;
-        quickSort(arr, left, i - 1);
-        quickSort(arr, i + 1, right);
+#define N 20
+
+void insertSort(int *a, int len) {
+    int i, j, temp;
+    for(i = 1; i < len; ++i) {
+        temp = a[i];
+        for(j = i - 1; j >= 0 && a[j] > temp; --j)
+            a[j + 1] = a[j];    
+        a[j + 1] = temp;    
+    }
+}
+
+void Swap(int *left, int *right) {
+    int temp = *left;
+    *left = *right;
+    *right = temp;
+}
+
+/*
+ * Get the median of a[low], a[center] and a[high].
+ */
+int median_of_three(int *a, int low, int high) {
+    int center = (low + high) / 2;
+    if(a[high] > a[low])
+        Swap(&a[high], &a[low]);
+    if(a[high] > a[center])
+        Swap(&a[high], &a[center]);  // Now a[high] is the biggest of the three values.
+    if(a[low] < a[center])
+        Swap(&a[low], &a[center]);
+    return a[low];
+}
+
+/*
+ * "Median-of-Three" partition
+ */
+int partition(int *a, int low, int high) {
+    int i = low, j = high + 1;
+    int pivot = median_of_three(a, low, high);
+    while(1) {
+        while(a[++i] < pivot) 
+            if(i == high) break;
+        while(a[--j] > pivot) 
+            if(j == low) break; 
+        if(i >= j) 
+            break;
+        Swap(&a[i], &a[j]);
+    }
+    Swap(&a[j], &a[0]);
+    return j;
+}
+
+void quickSort(int *a, int low, int high) {
+    int len = high - low + 1;
+    if(len <= 10) {
+        insertSort(a + low, len);
+    } else {
+        int p = partition(a, low, high);
+        quickSort(a, low, p - 1);
+        quickSort(a, p + 1, high);
     }
 }
 
 int main(int argc, char *argv[]) {
     int i;
-    int test[] = {1, 3, 2, 9, 10, 8, 4, 5, 6, 7};
-    quickSort(test, 0, 9);
-    for(i = 0; i < 10; i++)
+    int test[N] = {7, 3, 2, 9, 10, 8, 4, 5, 11, 6, 1, 15, 14, 13, 12, 20, 19, 17, 18, 16};
+    quickSort(test, 0, N - 1);
+    for(i = 0; i < N; ++i)
         printf("%d ", test[i]);
     printf("\n");
     return 0;
