@@ -4,7 +4,7 @@
 typedef struct Node {
     int data;
     struct Node *next;
-} node, *pNode;
+} *pNode;
 
 typedef struct {
     pNode head;
