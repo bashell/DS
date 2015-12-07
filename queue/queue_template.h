@@ -1,6 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include <cstdlib>
 #include <cassert>
 
 template <class T>
@@ -38,6 +39,10 @@ inline Queue<T>::~Queue() {
 template <class T>
 inline void Queue<T>::push(T data) {
   Node<T> *p = new Node<T>;
+  if(NULL == p) {
+    std::cerr << "new failure" << std::endl;
+    exit(EXIT_FAILURE);
+  }
   p -> data_ = data;
   p -> next_ = NULL;
   if(is_empty()) {

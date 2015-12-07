@@ -15,6 +15,10 @@ void queue_destroy(Queue *Q) {
 
 void queue_push(Queue *Q, int data) {
     pNode p = (pNode)malloc(sizeof(pNode));
+    if(NULL == p) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     p->data = data;
     p->next = NULL;
     if(queue_is_empty(Q)) {
@@ -55,16 +59,20 @@ int queue_is_empty(const Queue *Q) {
 
 int main()
 {
-  Queue *q = (Queue *)malloc(sizeof(Queue *));
+  Queue *q = (Queue*)malloc(sizeof(Queue*));
+  if(NULL == q) {
+      perror("malloc");
+      exit(EXIT_FAILURE);
+  }
   queue_init(q);
   queue_push(q, 10);
-  printf("%d\n", queue_top(q));
+  printf("head: %d\ttail: %d\tsize: %d\n", q->head->data, q->tail->data, q->size);
   queue_push(q, 20);
-  printf("%d\n", queue_size(q));
+  printf("head: %d\ttail: %d\tsize: %d\n", q->head->data, q->tail->data, q->size);
   queue_pop(q);
-  printf("%d\n", queue_size(q));
+  printf("head: %d\ttail: %d\tsize: %d\n", q->head->data, q->tail->data, q->size);
   queue_destroy(q);
   if(queue_is_empty(q))
-    printf("The queue is emtpy now!\n");
+      printf("The queue is emtpy now!\n");
   return 0;
 }
