@@ -13,7 +13,7 @@ void stack_destroy(Stack *S) {
 }
 
 void stack_push(Stack *S, int data) {
-    pNode p = (pNode)malloc(sizeof(pNode));
+    pNode p = (pNode)malloc(sizeof(struct Node));
     if(NULL == p) {
         perror("malloc");
         exit(EXIT_FAILURE);
@@ -58,7 +58,7 @@ int stack_is_empty(const Stack *S) {
 
 int main()
 {
-    Stack *s = (Stack*)malloc(sizeof(Stack*));
+    Stack *s = (Stack*)malloc(sizeof(Stack));
     if(NULL == s) {
         perror("malloc");
         exit(EXIT_FAILURE);

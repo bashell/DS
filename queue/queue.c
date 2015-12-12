@@ -14,7 +14,7 @@ void queue_destroy(Queue *Q) {
 }
 
 void queue_push(Queue *Q, int data) {
-    pNode p = (pNode)malloc(sizeof(pNode));
+    pNode p = (pNode)malloc(sizeof(struct Node));
     if(NULL == p) {
         perror("malloc");
         exit(EXIT_FAILURE);
@@ -59,7 +59,7 @@ int queue_is_empty(const Queue *Q) {
 
 int main()
 {
-  Queue *q = (Queue*)malloc(sizeof(Queue*));
+  Queue *q = (Queue*)malloc(sizeof(Queue));
   if(NULL == q) {
       perror("malloc");
       exit(EXIT_FAILURE);
