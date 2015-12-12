@@ -61,7 +61,7 @@ int stack_is_empty(const Stack S) {
 
 int main()
 {
-    Stack S = (Stack)malloc(sizeof(Stack));
+    Stack S = (Stack)malloc(sizeof(struct StackRecord));
     stack_init(S, 20);
     stack_push(S, 7);
     stack_push(S, 8);
