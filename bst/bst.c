@@ -1,35 +1,13 @@
-#ifndef _TREE_H
+#include <stdio.h>
+#include <stdlib.h>
+#include "bst.h"
 
-struct TreeNode;
-typedef struct TreeNode *position;
-typedef struct TreeNode *searchTree;
-typedef int ElementType;
-
-searchTree makeEmpty(searchTree T);
-position find(ElementType x, searchTree T);
-position findMin(searchTree T);
-position findMax(searchTree T);
-searchTree insertNode(ElementType x, searchTree T);
-searchTree deleteNode(ElementType x, searchTree T);
-void printTree(searchTree T);
-
-
-#endif  /* _TREE_H */
-
-struct TreeNode {
-    ElementType val;
-    searchTree left;
-    searchTree right;
-};
-
-/*************** Implementation ***************/
 searchTree makeEmpty(searchTree T) {
     if(T != NULL) {
         makeEmpty(T -> left);
         makeEmpty(T -> right);
         free(T);
     }
-
     return NULL;
 }
 
@@ -46,34 +24,29 @@ position find(ElementType x, searchTree T) {
 
 position findMin(searchTree T) {
     position pMin = T;
-
     if(T == NULL)
         return NULL;
     while(pMin -> left != NULL)
         pMin = pMin -> left;
-
     return pMin;
 }
 
 position findMax(searchTree T) {
     position pMax = T;
-
     if(T == NULL)
         return NULL;
     while(pMax -> right != NULL)
         pMax = pMax -> right;
-
     return pMax;
 }
 
 searchTree insertNode(ElementType x, searchTree T) {
     if(T == NULL) {
-        T = malloc(sizeof(struct TreeNode));
+        T = (searchTree)malloc(sizeof(struct TreeNode));
         if(T == NULL) {
             perror("malloc");
             exit(EXIT_FAILURE);
-        }
-        else {
+        } else {
             T -> val = x;
             T -> left = NULL;
             T -> right = NULL;
@@ -83,27 +56,24 @@ searchTree insertNode(ElementType x, searchTree T) {
         T -> left = insertNode(x, T -> left);
     else if(x > T -> val)
         T -> right = insertNode(x, T -> right);
-
     return T;
 }
 
 searchTree deleteNode(ElementType x, searchTree T) {
     position tempNode;
-
     if(T == NULL) {
-        printf("Element not found");
+        fprintf(stderr, "Element not found\n");
         exit(EXIT_FAILURE);
     }
-    else if(x < T -> val)   // 向左走
+    else if(x < T -> val)  // go left
         T -> left = deleteNode(x, T -> left);
-    else if(x > T -> val)   // 向右走
+    else if(x > T -> val)  // go right
         T -> right = deleteNode(x, T -> right);
-    else if(T -> left && T -> right) {  // 找到了待删除元素, 且该元素有两个子节点
-        tempNode = findMin(T -> right);    // 右子树中最小元素
+    else if(T -> left && T -> right) {  // find the node to delete (two children)
+        tempNode = findMin(T -> right);
         T -> val = tempNode -> val;
         T -> right = deleteNode(T -> val, T -> right);
-    }
-    else {   // 找到了待删除元素, 但该元素有0个或者1个子节点
+    } else {   // find the node to delete (one or zero children)
         tempNode = T;
         if(T -> left == NULL)
             T = T -> right;
@@ -111,14 +81,58 @@ searchTree deleteNode(ElementType x, searchTree T) {
             T = T -> left;
         free(tempNode);
     }
-
     return T;
 }
 
-void printTree(searchTree T) {   // 按前序打印
+void printTree(searchTree T) {   // print in pre-order
     if(T == NULL)
         return;
     printTree(T -> left);
     printf("%d\n", T -> val);
     printTree(T -> right);
+}
+
+int main() {
+    searchTree T = NULL;
+    position tempNode = NULL;
+    int num;
+    
+    /********** Insertion **********/
+    T = insertNode(20, T);
+    T = insertNode(10, T);
+    T = insertNode(3, T);
+    T = insertNode(9, T);
+    T = insertNode(23, T);
+    T = insertNode(13, T);
+    T = insertNode(7, T);
+
+    printf("Original:\n");
+    printTree(T);
+    
+    /********** Find min and max **********/
+    printf("\n");
+    printf("The min value in bst tree: %d\n", findMin(T) -> val);
+    printf("The max value in bst tree: %d\n", findMax(T) -> val);
+    
+    /********** Deletion **********/
+    T = deleteNode(10, T);
+    T = deleteNode(13, T);
+    printf("\nAfter deletion:\n");
+    printTree(T);
+    
+    /********** Find operation **********/
+    printf("\nInput a number you want to find: ");
+    scanf("%d", &num);
+    tempNode = find(num, T);
+    if(tempNode != NULL)
+        printf("%d is in bst tree.\n\n", num);
+    else
+        printf("%d is not in bst tree.\n\n", num);
+    
+    /********** MakeEmpty **********/
+    T = makeEmpty(T);
+    if(T == NULL)
+        printf("The tree has no nodes now.\n");
+    
+    return 0;
 }
