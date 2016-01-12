@@ -8,7 +8,15 @@ void countingSort(int arr[], int n) {
         if(max < arr[i])
             max = arr[i];
     int *count = (int *)calloc(max+1, sizeof(int));
+    if(NULL == count) {
+        fprintf(stderr, "calloc error");
+        exit(EXIT_FAILURE);
+    }
     int *sorted = (int *)calloc(n, sizeof(int));
+    if(NULL == sorted) {
+        fprintf(stderr, "calloc error");
+        exit(EXIT_FAILURE);
+    }
     for(i = 0; i < n; ++i)  // 统计每个元素出现的总次数, 循环结束后count[i]等于值为i的元素个数
         ++count[arr[i]];
     for(i = 1; i <= max; ++i)  // 累加计数, 循环结束后count[i]代表有多少个元素是小于等于i的
