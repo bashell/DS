@@ -7,7 +7,6 @@
         exit(EXIT_FAILURE); \
     } while(0)
 
-
 typedef struct TreeNode {
     int val;
     struct TreeNode *left;
@@ -27,6 +26,5 @@ pNode *createQueue(int *front, int *rear);
 void enQueue(pNode *queue, int *rear, pNode new_node);
 pNode deQueue(pNode *queue, int *front);
 void printLevelOrder2(pNode root);
-
 
 #endif  /* BINARY_TREE_H */

@@ -92,6 +92,7 @@ pNode deQueue(pNode *queue, int *front) {
     return queue[*front - 1];
 }
 
+// T(n) = O(n), where n is the num of nodes.
 void printLevelOrder2(pNode root) {
     int front, rear;
     pNode *queue = createQueue(&front, &rear);
