@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-#define N 20
+#define N 100
 
 void insertSort(int *a, int len) {
     int i, j, temp;
@@ -23,21 +25,26 @@ void Swap(int *left, int *right) {
  */
 int median_of_three(int *a, int low, int high) {
     int center = (low + high) / 2;
-    if(a[high] > a[low])
+    if(a[high] < a[low])
         Swap(&a[high], &a[low]);
-    if(a[high] > a[center])
-        Swap(&a[high], &a[center]);  // Now a[high] is the biggest of the three values.
-    if(a[low] < a[center])
+    if(a[high] < a[center])
+        Swap(&a[high], &a[center]); 
+    if(a[low] > a[center])
         Swap(&a[low], &a[center]);
-    return a[low];
+    // Now a[low] <= a[center] <= a[high]
+    Swap(&a[center], &a[high-1]);  // move pivot to a[high-1]
+    return a[high-1];
 }
 
 /*
  * "Median-of-Three" partition
  */
 int partition(int *a, int low, int high) {
-    int i = low, j = high + 1;
     int pivot = median_of_three(a, low, high);
+    // a[low] must be lower than pivot
+    // a[high] must be higher than pivot
+    // a[high-1] is the pivot
+    int i = low, j = high - 1;  
     while(1) {
         while(a[++i] < pivot) 
             if(i == high) break;
@@ -47,12 +54,14 @@ int partition(int *a, int low, int high) {
             break;
         Swap(&a[i], &a[j]);
     }
-    Swap(&a[j], &a[0]);
-    return j;
+    Swap(&a[i], &a[high-1]);
+    return i;
 }
 
 void quickSort(int *a, int low, int high) {
     int len = high - low + 1;
+    if(low >= high)
+        return ;
     if(len <= 10) {
         insertSort(a + low, len);
     } else {
@@ -63,8 +72,10 @@ void quickSort(int *a, int low, int high) {
 }
 
 int main(int argc, char *argv[]) {
-    int i;
-    int test[N] = {7, 3, 2, 9, 10, 8, 4, 5, 11, 6, 1, 15, 14, 13, 12, 20, 19, 17, 18, 16};
+    int i, test[N];
+    srand((unsigned)time(NULL));
+    for(i = 0; i < N; ++i)
+      test[i] = rand() % 100;
     quickSort(test, 0, N - 1);
     for(i = 0; i < N; ++i)
         printf("%d ", test[i]);
