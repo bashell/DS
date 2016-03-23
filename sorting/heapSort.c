@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define N 100
 
 // 左孩子(由于数组下标从0开始)
 #define LeftChild(i) (2 * (i) + 1)
@@ -13,9 +17,11 @@ void heapAdjust(int *arr, int i, int len) {
     int child, temp;
     for( ; LeftChild(i) < len; i = child) {
         child = LeftChild(i);
-        if(child < len - 1 && arr[child + 1] > arr[child])    // 得到两个子结点中值较大的那个
-            child++;
-        if(arr[i] < arr[child]) {    // 判断是否大于父结点的值
+        // 如果有两个子节点， 则令child指向值较大的结点
+        if(child != len - 1 && arr[child + 1] > arr[child])
+            ++child;
+        // 判断是否大于父结点的值
+        if(arr[i] < arr[child]) {    
             temp = arr[i];
             arr[i] = arr[child];
             arr[child] = temp;
@@ -47,10 +53,12 @@ void heapSort(int *arr, int len) {
 
 int main(int argc, char *argv[]) 
 {
-    int i;
-    int test[10] = {1, 3, 2, 9, 10, 8, 4, 5, 6, 7};
-    heapSort(test, 10);
-    for(i = 0; i < 10; ++i)
+    int i, test[N];
+    srand((unsigned)time(NULL));
+    for(i = 0; i < N; ++i)
+      test[i] = rand() % 100;
+    heapSort(test, N);
+    for(i = 0; i < N; ++i)
         printf("%d ", test[i]);
     printf("\n");
     return 0;
