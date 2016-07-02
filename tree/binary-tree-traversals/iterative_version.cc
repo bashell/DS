@@ -1,10 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <queue>
 
 using std::cin; using std::cout; using std::endl;
 using std::vector;
 using std::stack;
+using std::queue;
 
 class TreeNode {
  public:
@@ -69,6 +71,23 @@ vector<int> inOrderTraversal(TreeNode *root) {
   return res;
 }
 
+vector<int> levelOrderTraversal(TreeNode *root) {
+    vector<int> res;
+    if(NULL == root) return res;
+    queue<TreeNode*> q;
+    q.push(root);
+    while(q.size() > 0) {
+        TreeNode *tmp = q.front();
+        q.pop();
+        res.push_back(tmp->val);
+        if(tmp->left)
+            q.push(tmp->left);
+        if(tmp->right)
+            q.push(tmp->right);
+    }
+    return res;
+}
+
 int main()
 {
   TreeNode *root = new TreeNode(1);
@@ -81,6 +100,7 @@ int main()
   vector<int> preOrder = preOrderTraversal(root);
   vector<int> inOrder = inOrderTraversal(root);
   vector<int> postOrder = postOrderTraversal(root);
+  vector<int> levelOrder = levelOrderTraversal(root);
 
   cout << "PreOrder: ";
   for(auto i : preOrder)
@@ -96,5 +116,11 @@ int main()
   for(auto i : postOrder)
       cout << i << " ";
   cout << endl;
+
+  cout << "LevelOrder: ";
+  for(auto i : levelOrder)
+      cout << i << " ";
+  cout << endl;
+
   return 0;
 }
