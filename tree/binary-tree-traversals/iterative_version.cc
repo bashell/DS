@@ -72,20 +72,20 @@ vector<int> inOrderTraversal(TreeNode *root) {
 }
 
 vector<int> levelOrderTraversal(TreeNode *root) {
-    vector<int> res;
-    if(NULL == root) return res;
-    queue<TreeNode*> q;
-    q.push(root);
-    while(q.size() > 0) {
-        TreeNode *tmp = q.front();
-        q.pop();
-        res.push_back(tmp->val);
-        if(tmp->left)
-            q.push(tmp->left);
-        if(tmp->right)
-            q.push(tmp->right);
-    }
-    return res;
+  vector<int> res;
+  if(NULL == root) return res;
+  queue<TreeNode*> q;
+  q.push(root);
+  while(q.size() > 0) {
+    TreeNode *tmp = q.front();
+    q.pop();
+    res.push_back(tmp->val);
+    if(tmp->left)
+      q.push(tmp->left);
+    if(tmp->right)
+      q.push(tmp->right);
+  }
+  return res;
 }
 
 int main()
@@ -104,22 +104,22 @@ int main()
 
   cout << "PreOrder: ";
   for(auto i : preOrder)
-      cout << i << " ";
+    cout << i << " ";
   cout << endl;
 
   cout << "InOrder: ";
   for(auto i : inOrder)
-      cout << i << " ";
+    cout << i << " ";
   cout << endl;
   
   cout << "PostOrder: ";
   for(auto i : postOrder)
-      cout << i << " ";
+    cout << i << " ";
   cout << endl;
 
   cout << "LevelOrder: ";
   for(auto i : levelOrder)
-      cout << i << " ";
+    cout << i << " ";
   cout << endl;
 
   return 0;
