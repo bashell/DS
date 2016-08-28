@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "binary_search_tree.h"
-
-
+#include "bst.h"
 
 pNode newNode(ElementType val) {
     pNode node = (pNode)malloc(sizeof(Node));
@@ -12,7 +10,6 @@ pNode newNode(ElementType val) {
     node->left = node->right = NULL;
     return node;
 }
-
 
 // T(n) = O(h), h is the height of the tree
 pNode find(pNode root, ElementType val) {
@@ -80,14 +77,13 @@ pNode deleteNode(pNode root, ElementType val) {
     return root;
 }
 
-void printTree(pNode root) {   // print in pre-order
+void printTreePreOrder(pNode root) {   // print in pre-order
     if(root == NULL)
         return;
-    printTree(root->left);
     printf("%d\n", root->val);
-    printTree(root->right);
+    printTreePreOrder(root->left);
+    printTreePreOrder(root->right);
 }
-
 
 pNode makeEmpty(pNode root) {
     if(root != NULL) {
@@ -113,8 +109,20 @@ int main() {
     root = insertNode(root, 17);
     root = insertNode(root, 15);
 
-    printf("Original: PreOrder:\n");
-    printTree(root);
+    printf("Original:\nPreOrder:\n");
+    printTreePreOrder(root);
+    /*
+            12
+           /  \
+          2   34
+             /  
+            18
+           /  \
+          17  21
+          /
+         15
+ 
+    */
     
     /********** Find min and max **********/
     printf("\n");
@@ -124,8 +132,17 @@ int main() {
     /********** Deletion **********/
     root = deleteNode(root, 18);
     root = deleteNode(root, 17);
-    printf("\nAfter deletion: PreOrder:\n");
-    printTree(root);
+    printf("\nAfter deletion 18 and 17:\nPreOrder:\n");
+    printTreePreOrder(root);
+    /*
+           12
+          /  \
+         2   34
+             /
+            21
+            /
+           15 
+    */
     
     /********** Find operation **********/
     printf("\nInput a number you want to find: ");
