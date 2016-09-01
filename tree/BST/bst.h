@@ -1,5 +1,5 @@
-#ifndef BINARY_SEARCH_H
-#define BINARY_SEARCH_H
+#ifndef _BST_H_
+#define _BST_H_
 
 #define ERR_EXIT(m) \
     do { \
@@ -21,7 +21,7 @@ pNode findMin(pNode root);
 pNode findMax(pNode root);
 pNode insertNode(pNode root, ElementType val);
 pNode deleteNode(pNode root, ElementType val);
-void printTree(pNode T);
+void printTreePreOrder(pNode T);
 pNode makeEmpty(pNode T);
 
-#endif  /* BINARY_SEARCH_H */
+#endif  /* _BST_H_ */

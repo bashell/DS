@@ -1,18 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "binary_search_tree.h"
-
-
+#include "bst.h"
 
 pNode newNode(ElementType val) {
     pNode node = (pNode)malloc(sizeof(Node));
-    if(node == NULL)
+    if(NULL == node)
         ERR_EXIT("malloc");
     node->val = val;
     node->left = node->right = NULL;
     return node;
 }
-
 
 // T(n) = O(h), h is the height of the tree
 pNode find(pNode root, ElementType val) {
@@ -80,14 +77,13 @@ pNode deleteNode(pNode root, ElementType val) {
     return root;
 }
 
-void printTree(pNode root) {   // print in pre-order
+void printTreePreOrder(pNode root) {   // print in pre-order
     if(root == NULL)
         return;
-    printTree(root->left);
     printf("%d\n", root->val);
-    printTree(root->right);
+    printTreePreOrder(root->left);
+    printTreePreOrder(root->right);
 }
-
 
 pNode makeEmpty(pNode root) {
     if(root != NULL) {
@@ -112,34 +108,62 @@ int main() {
     root = insertNode(root, 21);
     root = insertNode(root, 17);
     root = insertNode(root, 15);
+    root = insertNode(root, 20);
+    root = insertNode(root, 25);
+    root = insertNode(root, 19);
 
-    printf("Original: PreOrder:\n");
-    printTree(root);
+    printf("Original:\nPreOrder:\n");
+    printTreePreOrder(root);
+    /*
+
+            12
+           /  \
+          2   34
+             /  
+            18
+           /  \
+          17  21
+          /   / \
+         15  20 25
+             /
+            19
+ 
+    */
     
     /********** Find min and max **********/
     printf("\n");
-    printf("The min value: %d\n", findMin(root) -> val);
-    printf("The max value: %d\n", findMax(root) -> val);
+    printf("Min value in bst: %d\n", findMin(root) -> val);
+    printf("Max value in bst: %d\n", findMax(root) -> val);
     
     /********** Deletion **********/
     root = deleteNode(root, 18);
-    root = deleteNode(root, 17);
-    printf("\nAfter deletion: PreOrder:\n");
-    printTree(root);
+    printf("\nAfter deletion 18:\nPreOrder:\n");
+    printTreePreOrder(root);
+    /*
+           12
+          /  \
+         2   34
+             /
+            19
+           /  \
+          17  21
+         /   /  \
+        15  20  25
+    */
     
     /********** Find operation **********/
     printf("\nInput a number you want to find: ");
     scanf("%d", &num);
     tempNode = find(root, num);
-    if(tempNode != NULL)
-        printf("%d is in this tree.\n\n", num);
+    if(NULL == tempNode)
+        printf("%d is not in bst.\n\n", num);
     else
-        printf("%d is not in this tree.\n\n", num);
+        printf("%d is in bst.\n\n", num);
     
     /********** MakeEmpty **********/
     root = makeEmpty(root);
-    if(root == NULL)
-        printf("The tree has no nodes now.\n");
+    if(NULL == root)
+        printf("Bst is cleared.\n");
     
     return 0;
 }
