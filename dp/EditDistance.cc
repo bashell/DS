@@ -18,7 +18,7 @@ int myMin(int x, int y, int z) {
  *  T(m,n) = O(m*n)
  *  S(m,n) = O(m*n)
  */
-int EditDistanceHelper(string s1, string s2, int m, int n) {
+int editDistance(const string &s1, const string &s2, int m, int n) {
   vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
   for(int i = 0; i <= m; ++i) {
     for(int j = 0; j <= n; ++j) {
@@ -37,14 +37,10 @@ int EditDistanceHelper(string s1, string s2, int m, int n) {
   return dp[m][n];
 }
 
-int EditDistance(string s1, string s2) {
-  return EditDistanceHelper(s1, s2, s1.size(), s2.size());
-}
-
 int main()
 {
   string word1("hello world");
   string word2("Hello woRd");
-  std::cout << EditDistance(word1, word2) << std::endl;
+  std::cout << editDistance(word1, word2, word1.size(), word2.size()) << std::endl;
   return 0;
 }
