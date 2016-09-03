@@ -1,19 +1,23 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using std::string;
 using std::vector;
 
-/*
- *  3 operations permitted: Insert / Delete / Replace
- */
+#define min(a,b) ( (a)<(b) ? (a):(b) )
+
 
 int myMin(int x, int y, int z) {
-  return std::min(std::min(x, y), z);
+  return min(min(x, y), z);
 }
 
+/*
+ *  3 operations permitted: Insert / Delete / Replace
+ *
+ *  T(m,n) = O(m*n)
+ *  S(m,n) = O(m*n)
+ */
 int EditDistanceHelper(string s1, string s2, int m, int n) {
   vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
   for(int i = 0; i <= m; ++i) {
@@ -34,13 +38,13 @@ int EditDistanceHelper(string s1, string s2, int m, int n) {
 }
 
 int EditDistance(string s1, string s2) {
-  int len1 = s1.size(), len2 = s2.size();
-  return EditDistanceHelper(s1, s2, len1, len2);
+  return EditDistanceHelper(s1, s2, s1.size(), s2.size());
 }
 
 int main()
 {
-  string word1("hello World"), word2("Hello word");
+  string word1("hello world");
+  string word2("Hello woRd");
   std::cout << EditDistance(word1, word2) << std::endl;
   return 0;
 }
